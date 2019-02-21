@@ -1,11 +1,16 @@
 package sorters;
 
-public class QuickSort extends Sorter {
+import java.util.Arrays;
+import java.util.List;
+
+public class QuickSort<T extends Comparable<T>> extends Sorter<T> {
+
     @Override
-    public int[] sort(int[] input) {
+    public T[] sort(T[] input) {
         if (input == null) throw new IllegalArgumentException(NULL_INPUT_EXCEPTION);
 
         quickSort(input, 0, input.length - 1);
+
         return input;
     }
 
@@ -14,47 +19,36 @@ public class QuickSort extends Sorter {
         return "sorters.QuickSort";
     }
 
-    public void quickSort(int[] array, int low, int high) {
+    public void quickSort(T[] input, int low, int high) {
+        if (input == null || input.length == 0) return;
+        if (low >= high) return;
 
-        if (low >= high)
-            return;
+        int middle = low + (high - low) / 2;
+        T pivot = input[middle];
 
-        // Selecting the  pivot
-        int first = low;
-        int second = low < high ? low + 1 : high;
-        int third = low + 1 < high ? low + 2 : high;
-        // Median for first three
-        int pivot = Math.max(Math.min(array[first],array[second]),
-                Math.min(Math.max(array[first],array[second]),array[third]));
+        int i = low;
+        int j = high;
 
-        while (low <= high)
-        {
-            while (array[low] < pivot)
-            {
-                low++;
+        while (i <= j) {
+            while (input[i].compareTo(pivot) < 0) {
+                i++;
             }
 
-            while (array[high] > pivot)
-            {
-                high--;
+            while (input[j].compareTo(pivot) > 0) {
+                j--;
             }
 
-            if (low <= high)
-            {
-                int temp = array[low];
-                array[low] = array[high];
-                array[high] = temp;
-                low++;
-                high--;
+            if (i <= j) {
+                T temp = input[i];
+                input[i] = input[j];
+                input[j] = temp;
+                i++;
+                j--;
             }
         }
 
-        // Sorting recursively
-        if (low < high)
-            quickSort(array, low, high);
-
-        if (high > low)
-            quickSort(array, low, high);
+        if (low < j) quickSort(input, low, j);
+        if (high > i) quickSort(input, i, high);
     }
 
 

@@ -2,9 +2,9 @@ package sorters;
 
 import java.util.Arrays;
 
-public class MergeSort extends Sorter {
+public class MergeSort<T extends Comparable<T>> extends Sorter<T> {
 
-    public int[] sort(int[] input) {
+        public T[] sort(T[] input) {
         if (input == null) throw new IllegalArgumentException(NULL_INPUT_EXCEPTION);
 
         mergeSort(input);
@@ -17,12 +17,12 @@ public class MergeSort extends Sorter {
         return "sorters.MergeSort";
     }
 
-    public void mergeSort(int[] input) {
+    public void mergeSort(T[] input) {
         if (input.length <= 1){
             return;
         } else {
-            int[] leftHalf = Arrays.copyOfRange(input, 0, input.length / 2);
-            int[] rightHalf = Arrays.copyOfRange(input, input.length / 2, input.length);
+            T[] leftHalf = Arrays.copyOfRange(input, 0, input.length / 2);
+            T[] rightHalf = Arrays.copyOfRange(input, input.length / 2, input.length);
 
             mergeSort(leftHalf);
             mergeSort(rightHalf);
@@ -31,7 +31,7 @@ public class MergeSort extends Sorter {
             int rightIndex = 0;
 
             for (int i = 0; i < input.length; i++) {
-                if ( rightIndex >= rightHalf.length || leftIndex < leftHalf.length && leftHalf[leftIndex] < rightHalf[rightIndex]) {
+                if ( rightIndex >= rightHalf.length || leftIndex < leftHalf.length && leftHalf[leftIndex].compareTo(rightHalf[rightIndex]) < 0) {
                     input[i] = leftHalf[leftIndex];
                     leftIndex++;
                 } else {
