@@ -3,7 +3,7 @@ package generics;
 import java.awt.*;
 import java.io.File;
 
-public class MemoryCell<T extends Comparable> implements Comparable<MemoryCell> {
+public class MemoryCell<T extends Comparable<T>> implements Comparable<MemoryCell<T>> {
     private T storedValue;
 
     public T read() {
@@ -15,7 +15,7 @@ public class MemoryCell<T extends Comparable> implements Comparable<MemoryCell> 
     }
 
     @Override
-    public int compareTo(MemoryCell o) {
+    public int compareTo(MemoryCell<T> o) {
         return storedValue.compareTo(o.storedValue);
     }
 }
